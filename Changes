@@ -1,0 +1,4 @@
+Revision history for Perl extension Plack::Middleware::Throttle::Lite::Backend::Redis
+
+{{$NEXT}}
+    - initial commit/release
