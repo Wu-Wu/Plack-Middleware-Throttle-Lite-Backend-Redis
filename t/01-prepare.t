@@ -11,7 +11,6 @@ can_ok 'Plack::Middleware::Throttle::Lite::Backend::Redis', qw(
     reqs_done
     increment
     rdb
-    ttl
 );
 
 # simple application
@@ -40,5 +39,8 @@ SKIP: {
     eval { $app = builder { enable 'Throttle::Lite', backend => [ 'Redis' => {sock => '/bogus.sock'} ]; $app } };
     like $@, qr|Nonexistent redis socket|, 'Invalid sock parameter exception';
 }
+
+eval { $app = builder { enable 'Throttle::Lite', backend => [ 'Redis' => {server => 'bogus:0'} ]; $app } };
+like $@, qr|Cannot get redis handle: .*|, 'Unable to connect to redis at bogus:0';
 
 done_testing();

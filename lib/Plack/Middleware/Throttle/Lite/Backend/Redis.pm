@@ -12,7 +12,7 @@ use Redis 1.955;
 # VERSION
 # AUTHORITY
 
-__PACKAGE__->mk_attrs(qw(redis rdb ttl));
+__PACKAGE__->mk_attrs(qw(redis rdb));
 
 sub init {
     my ($self, $args) = @_;
@@ -22,8 +22,6 @@ sub init {
     if (!defined $args->{server} && !defined $args->{sock}) {
         $croak->("Settings should include either server or sock parameter!");
     }
-
-    my %expire = ('req/hour' => 3600, 'req/day' => 86400);
 
     my %options = (
         debug     => $args->{debug}     || 0,
@@ -49,9 +47,12 @@ sub init {
     }
 
     $self->rdb($args->{database} || 0);
-    $self->ttl($args->{expire} || $expire{$self->units});
 
-    $self->redis(Redis->new(%options));
+    my $_handle;
+    eval { $_handle = Redis->new(%options) };
+    $croak->("Cannot get redis handle: $@") if $@;
+
+    $self->redis($_handle);
 }
 
 1; # End of Plack::Middleware::Throttle::Lite::Backend::Redis
