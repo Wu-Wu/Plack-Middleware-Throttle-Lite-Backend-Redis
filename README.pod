@@ -1,0 +1,51 @@
+=pod
+
+=head1 NAME
+
+Plack::Middleware::Throttle::Lite::Backend::Redis - Redis-driven storage backend for Throttle-Lite
+
+=head1 VERSION
+
+version 0.01
+
+=head1 DESCRIPTION
+
+=encoding utf8
+
+=head1 SYNOPSYS
+
+    # inside your app.psgi
+    enable 'Throttle::Lite',
+        backend => [
+            'Redis' => {
+                server   => 'redis.example.com:6379',
+                database => 1,
+                password => 'VaspUtnuNeQuiHesGapbootsewWeonJadacVebEe'
+            }
+        ];
+
+=head1 OPTIONS
+
+=head1 METHODS
+
+=head1 BUGS
+
+=head1 SEE ALSO
+
+L<Redis>
+
+L<Plack::Middleware::Throttle::Lite>
+
+L<Plack::Middleware::Throttle::Lite::Backend::Abstract>
+
+=head1 AUTHOR
+
+Anton Gerasimov <chim@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2013 by Anton Gerasimov.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
