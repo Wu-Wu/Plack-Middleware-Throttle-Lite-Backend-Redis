@@ -55,6 +55,22 @@ sub init {
     $self->redis($_handle);
 }
 
+sub increment {
+    my ($self) = @_;
+
+    $self->redis->select($self->rdb);
+    $self->redis->incr($self->cache_key);
+    $self->redis->expire($self->cache_key, 1 + $self->expire_in);
+
+}
+
+sub reqs_done {
+    my ($self) = @_;
+
+    $self->redis->select($self->rdb);
+    $self->redis->get($self->cache_key) || 0;
+}
+
 1; # End of Plack::Middleware::Throttle::Lite::Backend::Redis
 
 __END__
