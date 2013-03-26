@@ -6,6 +6,9 @@ perl:
     - "5.12"
     - "5.10"
 
+services:
+    - redis-server
+
 before_install:
     - "cpanm -q -n Dist::Zilla::PluginBundle::Author::CHIM"
 
