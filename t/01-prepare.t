@@ -29,6 +29,7 @@ my $appx = sub {
 # TCP/IP
 #
 my @instance_inet = (
+    ''                          => '127.0.0.1:6379',
     'tcp:example.com:11230'     => 'example.com:11230',
     'tcp:redis.example.org'     => 'redis.example.org:6379',
     'redis-db.example.com'      => 'redis-db.example.com:6379',
@@ -46,8 +47,12 @@ my @instance_inet = (
 );
 
 while (my ($instance, $thru) = splice(@instance_inet, 0, 2)) {
-    eval { $appx->($instance) };
-    like $@, qr|Cannot get redis handle:.*server at $thru|, 'Unable to connect to redis at [' . $instance . ']';
+    my $is_travis = ($ENV{TRAVIS} eq 'true') && $ENV{CI} eq 'true');
+    SKIP: {
+        skip 'travis-ci.org detected', 1 if $is_travis && $thru =~ m/^127\.0/;
+        eval { $appx->($instance) };
+        like $@, qr|Cannot get redis handle:.*server at $thru|, 'Unable to connect to redis at [' . $instance . ']';
+    }
 }
 
 #
