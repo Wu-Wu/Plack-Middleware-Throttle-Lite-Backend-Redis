@@ -47,7 +47,7 @@ my @instance_inet = (
 );
 
 while (my ($instance, $thru) = splice(@instance_inet, 0, 2)) {
-    my $is_travis = ($ENV{TRAVIS} eq 'true') && $ENV{CI} eq 'true');
+    my $is_travis = ($ENV{TRAVIS} eq 'true') && ($ENV{CI} eq 'true');
     SKIP: {
         skip 'travis-ci.org detected', 1 if $is_travis && $thru =~ m/^127\.0/;
         eval { $appx->($instance) };
