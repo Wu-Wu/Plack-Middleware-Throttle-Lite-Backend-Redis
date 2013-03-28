@@ -6,7 +6,7 @@ Plack::Middleware::Throttle::Lite::Backend::Redis - Redis-driven storage backend
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 DESCRIPTION
 

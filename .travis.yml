@@ -14,8 +14,6 @@ before_install:
 
 install:
     - "dzil authordeps | xargs cpanm -q -n && dzil listdeps | xargs cpanm -q -n"
-    - "export TRAVIS_CI_ORG_BUILD=1"
-    - "echo Travis-CI.org [$TRAVIS_CI_ORG_BUILD]"
 
 script:
-    - "dzil test --release"
+    - "TRAVIS_CI_ORG_BUILD=1 dzil test --release"
