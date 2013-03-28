@@ -47,9 +47,8 @@ my @instance_inet = (
 );
 
 while (my ($instance, $thru) = splice(@instance_inet, 0, 2)) {
-    my $is_travis = ($ENV{TRAVIS} eq 'true') && ($ENV{CI} eq 'true');
     SKIP: {
-        skip 'travis-ci.org detected', 1 if $is_travis && $thru =~ m/^127\.0/;
+        skip 'travis-ci.org detected', 1 if $ENV{TRAVIS_CI_ORG_BUILD} && $thru =~ m/^127\.0/;
         eval { $appx->($instance) };
         like $@, qr|Cannot get redis handle:.*server at $thru|, 'Unable to connect to redis at [' . $instance . ']';
     }
