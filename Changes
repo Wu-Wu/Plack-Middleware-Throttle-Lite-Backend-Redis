@@ -1,6 +1,8 @@
 Revision history for Perl extension Plack::Middleware::Throttle::Lite::Backend::Redis
 
 {{$NEXT}}
+
+0.02    Thu Mar 28 07:12:04 2013 +0000
     - skip some tests in travis-ci environment
     - parameters server and sock were replaced by parameter instance
 
