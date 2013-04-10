@@ -49,8 +49,8 @@ my @samples = (
     3,  200,    3,      '',     'OK',              'text/html',
     4,  200,    4,      '',     'OK',              'text/html',
     5,  200,    5,      '1',    'OK',              'text/html',
-    6,  503,    5,      '1',    'Limit exceeded',  'text/plain',
-    7,  503,    5,      '1',    'Limit exceeded',  'text/plain',
+    6,  429,    5,      '1',    'Limit Exceeded',  'text/plain',
+    7,  429,    5,      '1',    'Limit Exceeded',  'text/plain',
 );
 
 my $checks = sub {
@@ -62,6 +62,7 @@ my $checks = sub {
         is $res->code,                                      $code,          $reqno . ' code';
         is $res->header('X-Throttle-Lite-Used'),            $used,          $reqno . ' used header';
         is defined($res->header('X-Throttle-Lite-Expire')), $expire_in,     $reqno . ' expire-in header';
+        is defined($res->header('Retry-After')),            $expire_in,     $reqno . ' retry-after header';
         like $res->content,                                 qr/$content/,   $reqno . ' content';
         is $res->content_type,                              $type,          $reqno . ' content type';
     }
