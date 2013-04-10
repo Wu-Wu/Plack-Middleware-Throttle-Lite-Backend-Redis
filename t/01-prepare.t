@@ -51,7 +51,7 @@ my @instance_inet = (
 
 while (my ($instance, $thru) = splice(@instance_inet, 0, 2)) {
     SKIP: {
-        skip 'Redis detected', 1 if $detected && $thru =~ m/^127.0.0.1:6379/;
+        skip 'Redis detected', 1 if ($detected || $ENV{TRAVIS_CI_ORG_BUILD}) && $thru =~ m/^127\.0/;
         throws_ok { $appx->($instance) }
             qr|Cannot get redis handle:.*$thru|, 'Unable to connect to redis at [' . $instance . ']';
     }

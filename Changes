@@ -1,6 +1,9 @@
 Revision history for Perl extension Plack::Middleware::Throttle::Lite::Backend::Redis
 
 {{$NEXT}}
+    - update test to support Throttle-Lite v0.02+
+    - update perl min version requirements
+    - better redis handling in tests
 
 0.02    Thu Mar 28 07:12:04 2013 +0000
     - skip some tests in travis-ci environment
