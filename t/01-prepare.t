@@ -7,6 +7,9 @@ use Test::More;
 use Test::Exception;
 use Plack::Middleware::Throttle::Lite::Backend::Redis;
 
+my $redis = eval { Redis->new(server => '127.0.0.1:6379', debug => 0) };
+my $detected = $redis && ref($redis) eq 'Redis' && $redis->ping eq 'PONG';
+
 can_ok 'Plack::Middleware::Throttle::Lite::Backend::Redis', qw(
     redis
     reqs_done
@@ -48,7 +51,7 @@ my @instance_inet = (
 
 while (my ($instance, $thru) = splice(@instance_inet, 0, 2)) {
     SKIP: {
-        skip 'travis-ci.org detected', 1 if $ENV{TRAVIS_CI_ORG_BUILD} && $thru =~ m/^127\.0/;
+        skip 'Redis detected', 1 if $detected && $thru =~ m/^127.0.0.1:6379/;
         throws_ok { $appx->($instance) }
             qr|Cannot get redis handle:.*$thru|, 'Unable to connect to redis at [' . $instance . ']';
     }

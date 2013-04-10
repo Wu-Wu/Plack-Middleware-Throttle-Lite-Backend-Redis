@@ -8,8 +8,11 @@ use Redis;
 
 my $default_server = $ENV{REDIS_SERVER} || '127.0.0.1:6379';
 
-my $redis_avail = eval { Redis->new(server => $default_server, debug => 0) };
-plan skip_all => "Redis-server needs to be running on '$default_server' for tests" unless $redis_avail;
+my $redis = eval { Redis->new(server => $default_server, debug => 0) };
+plan skip_all => "Redis-server needs to be running on '$default_server' for tests" unless $redis;
+
+$redis->select(0);
+$redis->flushdb;
 
 # simple application
 my $app = sub { [200, [ 'Content-Type' => 'text/html' ], [ '<html><body>OK</body></html>' ]] };
