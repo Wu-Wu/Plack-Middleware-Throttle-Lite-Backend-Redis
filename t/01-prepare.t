@@ -10,6 +10,8 @@ use Plack::Middleware::Throttle::Lite::Backend::Redis;
 my $redis = eval { Redis->new(server => '127.0.0.1:6379', debug => 0) };
 my $detected = $redis && ref($redis) eq 'Redis' && $redis->ping eq 'PONG';
 
+diag 'Redis-server detected at 127.0.0.1:6379' if $detected;
+
 can_ok 'Plack::Middleware::Throttle::Lite::Backend::Redis', qw(
     redis
     reqs_done
