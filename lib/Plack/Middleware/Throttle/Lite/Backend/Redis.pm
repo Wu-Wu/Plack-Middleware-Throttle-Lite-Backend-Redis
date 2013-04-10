@@ -4,7 +4,6 @@ package Plack::Middleware::Throttle::Lite::Backend::Redis;
 
 use strict;
 use warnings;
-use feature ':5.10';
 use Carp ();
 use parent 'Plack::Middleware::Throttle::Lite::Backend::Abstract';
 use Redis 1.955;
@@ -37,9 +36,8 @@ sub init {
 
     $self->rdb($args->{database} || 0);
 
-    my $_handle;
-    eval { $_handle = Redis->new(%options) };
-    $croak->("Cannot get redis handle: $@") if $@;
+    my $_handle = eval { Redis->new(%options) };
+    $croak->("Cannot get redis handle: ". ($@ || $instance->{thru})) unless ref($_handle) eq 'Redis';
 
     $self->redis($_handle);
 }

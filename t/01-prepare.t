@@ -49,7 +49,7 @@ while (my ($instance, $thru) = splice(@instance_inet, 0, 2)) {
     SKIP: {
         skip 'travis-ci.org detected', 1 if $ENV{TRAVIS_CI_ORG_BUILD} && $thru =~ m/^127\.0/;
         eval { $appx->($instance) };
-        like $@, qr|Cannot get redis handle:.*server at $thru|, 'Unable to connect to redis at [' . $instance . ']';
+        like $@, qr|Cannot get redis handle:.*$thru|, 'Unable to connect to redis at [' . $instance . ']';
     }
 }
 
