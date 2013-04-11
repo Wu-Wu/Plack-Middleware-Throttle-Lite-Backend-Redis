@@ -51,13 +51,13 @@ sub _parse_instance {
     CHANCE: {
         last CHANCE unless $instance;
 
-        if ($instance =~ m,^(unix:)?(?<socketpath>/.+)$,i) {
-            $params->{thru} = $+{socketpath};
+        if ($instance =~ m,^(unix:)?(/.+)$,i) {
+            $params->{thru} = $2;
             $params->{unix} = 1;
             last CHANCE;
         }
-        if ($instance =~ m,^((tcp|inet):)?(?<srvname>.+)$,i) {
-            my ($server, $port) = ($+{srvname}, undef);
+        if ($instance =~ m,^((tcp|inet):)?(.+)$,i) {
+            my ($server, $port) = ($3, undef);
             ($server, $port)    = split /:/, $server;
             $params->{thru}     = lc($server) . ':' . (($port && ($port > 0 && $port <= 65535)) ? $port : '6379');
         }
